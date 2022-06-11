@@ -36,4 +36,23 @@ class AgentsController extends Controller
             ->status(422)
             ->toJSON(["message" => "Agent Name Already Exist"]);
     }
+
+
+    public function show(Request $request, Response $response)
+    {
+
+        $agent = Agent::make()->find($request->id);
+
+        return $response->toJSON(["data" => $agent]);
+    }
+
+
+    public function delete(Request $request, Response $response)
+    {
+        if (Agent::make()->delete($request->id)) {
+            return $response->status(200)->toJSON(["message"=>"Agent Deleted"]);
+        }
+
+        return $response->status(500)->toJSON(["message"=>"Something went wrong"]);
+    }
 }
