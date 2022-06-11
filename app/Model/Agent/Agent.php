@@ -13,6 +13,7 @@ class Agent extends Model
     protected $table = "agent_master";
 
     protected $fillable = [
+        'AGENT_ID',
         'AGENT_NAME',
         'AGENT_PH_NO',
         'AGENT_LOCATION',
@@ -20,11 +21,9 @@ class Agent extends Model
     ];
 
 
-    //user relations 
-
+    //agent relations 
     public function location()
     {
-
         return 'place_master';
     }
 
@@ -53,14 +52,43 @@ class Agent extends Model
         }
     }
 
+
+
     public function all()
     {
-        $sql = "SELECT * FROM " . $this->table;
+        $sql = "SELECT * FROM " . $this->table . "," . $this->location() . " WHERE `AGENT_DL_STATUS`=1 AND `AGENT_LOCATION`=" . $this->location() . ".PLACE_ID";
         $stmt = $this->db->prepare($sql);
         try {
             $stmt->execute();
             $db_response = $stmt->fetchAll();
             return $db_response;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+    public function find($id)
+    {
+        $sql = "SELECT * FROM " . $this->table . " where `AGENT_ID`={$id}";
+        $stmt = $this->db->prepare($sql);
+        try {
+            $stmt->execute();
+            $db_response = $stmt->fetch();
+            return $db_response;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+    public function delete($id)
+    {
+        $sql = "UPDATE " . $this->table . " SET `AGENT_DL_STATUS`=0 WHERE `AGENT_ID`=:id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam('id', $id);
+
+        try {
+
+            return ($stmt->execute()) ? true : false;
         } catch (PDOException $e) {
             echo $e;
         }
