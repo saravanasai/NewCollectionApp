@@ -41,5 +41,5 @@ Route::post('/scheme/([0-9]*)', [SchemeController::class, 'delete'],["id"]);
 //section to handle the Users related Routes
 Route::get('/user', [UserController::class, 'index']);
 Route::post('/user', [UserController::class, 'store']);
-Route::get('/user/([0-9]*)', [UserController::class, 'show']);
-Route::post('/user/([0-9]*)', [UserController::class, 'delete'],["id"]);
+Route::get('/user/([0-9]*)', [UserController::class, 'show'],["id"]);
+Route::post('/user/([0-9]*)/update', [UserController::class, 'update'],["id"]);
