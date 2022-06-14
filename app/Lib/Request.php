@@ -9,7 +9,7 @@ class Request
     private $contentType;
 
     public function __construct($params = [])
-    {
+    {   
         $this->params = $params;
         $this->reqMethod = trim($_SERVER['REQUEST_METHOD']);
         $this->contentType = !empty($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
@@ -55,6 +55,11 @@ class Request
 
 
         foreach ($this->params as $attribute => $value)
+        {
             $this->{$attribute} = $value;
+
+            }
+            
+        
     }
 }

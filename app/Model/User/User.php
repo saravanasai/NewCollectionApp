@@ -114,6 +114,20 @@ class User extends Model
     }
 
 
+    public function searchCustomer($key)
+    {
+        $sql = "SELECT * FROM " . $this->table . " WHERE `CUS_NAME` like '%" . $key . "%' OR `CUS_PM_PH_NO` like '%" . $key . "%' OR `CUS_MEMBER_ID` like '%" . $key . "%' ORDER BY CUS_MEMBER_ID";
+        $stmt = $this->db->prepare($sql);
+
+        try {
+            $stmt->execute();
+            $customer_fetched = $stmt->fetchall();
+            return $customer_fetched;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
 
     public function find($id)
     {

@@ -34,7 +34,7 @@ class UserController extends Controller
 
                 $collection = Collection::make();
 
-                if ($collection->insert_collection($lastid, $request->cus_pl_id)) {
+                if ($collection->insert_collection_trigger($lastid, $request->cus_pl_id)) {
                     return $response
                         ->status(201)
                         ->toJSON(["message" => "User Created"]);

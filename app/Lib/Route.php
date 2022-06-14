@@ -23,9 +23,10 @@ class Route
         self::on($route, $callback, $params);
     }
 
-    public static function on($regex, $cb, $props = [])
+    private static function on($regex, $cb, $props = [])
     {
         $params = $_SERVER['REQUEST_URI'];
+       
         $params = (stripos($params, "/") !== 0) ? "/" . $params : $params;
 
         $regex = str_replace('/', '\/', $regex);
