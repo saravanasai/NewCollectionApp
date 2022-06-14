@@ -4,8 +4,11 @@ namespace App\Lib\Contracts;
 
 use App\Lib\Model;
 
+
 abstract class Rule
 {
+
+    public static $errors = [];
 
     public static function IsNumeric($value): bool
     {
@@ -22,6 +25,9 @@ abstract class Rule
         return  $is_unique ? true : false;
     }
 
+
+    
+   
     public static function Required($value): bool
     {
         return (empty($value)) ? true : false;
