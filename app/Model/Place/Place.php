@@ -18,7 +18,7 @@ class Place extends Model
         'PLACE_DL_STATUS'
     ];
 
-
+    
 
 
     public function insert_place(Request $request)
@@ -49,7 +49,7 @@ class Place extends Model
 
     public function all()
     {
-        $sql = "SELECT * FROM " . $this->table . " WHERE `PLACE_DL_STATUS`=1";
+        $sql = "SELECT * FROM " . $this->table . " WHERE `PLACE_DL_STATUS`=1 ORDER BY  	PLACE_NAME";
         $stmt = $this->db->prepare($sql);
         try {
             $stmt->execute();

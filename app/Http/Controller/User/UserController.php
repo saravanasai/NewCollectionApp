@@ -66,10 +66,10 @@ class UserController extends Controller
 
         $errors = UserRule::validateUpdate($request);
 
-        if ($errors==[]) {
+        if ($errors == []) {
 
             $user = User::make();
-            
+
             if ($user->update($request)) {
 
                 return $response
@@ -81,5 +81,32 @@ class UserController extends Controller
         return $response
             ->status(422)
             ->toJSON(["errors" => $errors]);
+    }
+
+
+
+
+    public function countByPlace(Request $request, Response $response)
+    {
+
+
+        return $response
+            ->status(200)
+            ->toJSON(["data" =>  User::make()->userCountByPlace()]);
+    }
+
+
+    public function countByAgent(Request $request, Response $response)
+    {
+        return $response
+            ->status(200)
+            ->toJSON(["data" =>  User::make()->userCountByAgent()]);
+    }
+
+    public function countByPlan(Request $request,Response $response)
+    {
+        return $response
+            ->status(200)
+            ->toJSON(["data" =>  User::make()->userCountByPlan()]);
     }
 }

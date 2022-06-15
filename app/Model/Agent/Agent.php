@@ -56,7 +56,7 @@ class Agent extends Model
 
     public function all()
     {
-        $sql = "SELECT * FROM " . $this->table . "," . $this->location() . " WHERE `AGENT_DL_STATUS`=1 AND `AGENT_LOCATION`=" . $this->location() . ".PLACE_ID";
+        $sql = "SELECT * FROM " . $this->table . "," . $this->location() . " WHERE `AGENT_DL_STATUS`=1 AND `AGENT_LOCATION`=" . $this->location() . ".PLACE_ID ORDER BY agent_master.AGENT_NAME";
         $stmt = $this->db->prepare($sql);
         try {
             $stmt->execute();

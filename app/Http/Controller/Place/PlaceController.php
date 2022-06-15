@@ -50,4 +50,7 @@ class PlaceController extends Controller
 
         return $response->status(500)->toJSON(["message" => "Something went wrong"]);
     }
+
+
+   
 }
