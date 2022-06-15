@@ -14,6 +14,7 @@ class Collection extends Model
     protected $fillable = [
         'COL_ID',
         'COL_FOR_CUS_ID',
+        'COL_PLAN_ID',
         'CUS_TOTAL_DUE',
         'COL_DUE_BALANCE',
         'COL_DUE_LAST_BALANCE',
@@ -30,6 +31,11 @@ class Collection extends Model
     }
 
 
+    public function user()
+    {
+        return 'customer_master';
+    }
+
 
     public function insert_collection_trigger($last_id, $planid)
     {
@@ -42,10 +48,12 @@ class Collection extends Model
             $plan_amount_fetch = $stmt->fetchall();
 
             $planAmount = (number_format($plan_amount_fetch[0]->PL_AMOUNT)) * 12;
+            $planId = $plan_amount_fetch[0]->PL_ID;
 
-            $sql = "INSERT INTO `collection_master`(`COL_FOR_CUS_ID`, `CUS_TOTAL_DUE`, `COL_DUE_BALANCE`)
+            $sql = "INSERT INTO `collection_master`(`COL_FOR_CUS_ID`,`COL_PLAN_ID`,`CUS_TOTAL_DUE`, `COL_DUE_BALANCE`)
                         VALUES (
                             '" . $last_id . "',
+                            '" . $planId . "',
                             '" . $planAmount . "',
                             '" . $planAmount . "')";
             $stmt = $this->db->prepare($sql);
@@ -55,6 +63,18 @@ class Collection extends Model
         }
     }
 
+    public function filterByPlanAndAmount($planId, $amount)
+    {
+        $sql = "SELECT * FROM " . $this->table . ",{$this->user()}" . " where `COL_PLAN_ID`={$planId} AND `COL_DUE_BALANCE`<={$amount} AND customer_master.CUS_ID={$this->table}.COL_FOR_CUS_ID";
+        $stmt = $this->db->prepare($sql);
+        try {
+            $stmt->execute();
+            $db_response = $stmt->fetchAll();
+            return $db_response;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
 
     public function pay($customerId, $amount, $paidBy)
     {

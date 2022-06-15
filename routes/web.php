@@ -31,6 +31,7 @@ Route::post('/place/([0-9]*)', [PlaceController::class, 'delete'], ["id"]);
 
 
 
+
 //section to handle the Plan related Routes
 Route::get('/plan', [PlanController::class, 'index']);
 Route::post('/plan', [PlanController::class, 'store']);
@@ -46,6 +47,9 @@ Route::get('/user', [UserController::class, 'index']);
 Route::post('/user', [UserController::class, 'store']);
 Route::get('/user/([0-9]*)', [UserController::class, 'show'],["id"]);
 Route::post('/user/([0-9]*)/update', [UserController::class, 'update'],["id"]);
+Route::get('/user/user-count-by-place', [UserController::class, 'countByPlace']);
+Route::get('/user/user-count-by-agent', [UserController::class, 'countByAgent']);
+Route::get('/user/user-count-by-plan', [UserController::class, 'countByPlan']);
 
 
 //section to handle the collection routes 
@@ -63,3 +67,4 @@ Route::post('/transaction-report',[TransactionController::class,'transactionRepo
 
 //section handleing search 
 Route::post('/search',[SearchController::class,'search']);
+Route::post('/search/search-by-plan-amount',[SearchController::class,'searchByPlanAndAmount']);

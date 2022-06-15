@@ -98,6 +98,56 @@ class User extends Model
     }
 
 
+    public function userCountByPlan()
+    {
+
+        $sql = "SELECT plan_master.PL_ID,plan_master.PL_AMOUNT,COUNT(CUS_ID) AS TOTAL_USERS FROM " . $this->table . " INNER JOIN plan_master ON plan_master.PL_ID=customer_master.CUS_PLAN_ID GROUP BY customer_master.CUS_PLAN_ID ORDER BY plan_master.PL_ID;";
+        $stmt = $this->db->prepare($sql);
+
+
+        try {
+            $stmt->execute();
+            $usersByCount = $stmt->fetchall();
+            return $usersByCount;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+
+    public function userCountByPlace()
+    {
+
+        $sql = "SELECT place_master.PLACE_ID,place_master.PLACE_NAME,COUNT(CUS_ID) AS TOTAL_USERS FROM " . $this->table . " INNER JOIN place_master ON place_master.PLACE_ID=customer_master.CUS_PLACE_ID GROUP BY customer_master.CUS_PLACE_ID ORDER BY place_master.PLACE_NAME;";
+        $stmt = $this->db->prepare($sql);
+
+
+        try {
+            $stmt->execute();
+            $usersByCount = $stmt->fetchall();
+            return $usersByCount;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+
+    public function userCountByAgent()
+    {
+
+        $sql = "SELECT agent_master.AGENT_ID,agent_master.AGENT_NAME ,COUNT(CUS_ID) AS TOTAL_USERS FROM " . $this->table . " INNER JOIN agent_master ON agent_master.AGENT_ID=customer_master.CUS_REF_BY  GROUP BY customer_master.CUS_REF_BY ORDER BY agent_master.AGENT_NAME;";
+        $stmt = $this->db->prepare($sql);
+
+
+        try {
+            $stmt->execute();
+            $usersByCount = $stmt->fetchall();
+            return $usersByCount;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
     public function all()
     {
         $sql = "SELECT * FROM " . $this->table . ",plan_master,place_master,agent_master WHERE `CUS_PLACE_ID`=place_master.PLACE_ID AND `CUS_REF_BY`= agent_master.AGENT_ID AND `CUS_PLAN_ID`=plan_master.PL_ID; ";

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 11, 2022 at 03:48 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
+-- Generation Time: Jun 15, 2022 at 11:34 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -77,6 +77,7 @@ INSERT INTO `agent_master` (`AGENT_ID`, `AGENT_NAME`, `AGENT_PH_NO`, `AGENT_LOCA
 CREATE TABLE `collection_master` (
   `COL_ID` bigint(20) UNSIGNED NOT NULL,
   `COL_FOR_CUS_ID` bigint(20) NOT NULL,
+  `COL_PLAN_ID` bigint(20) DEFAULT NULL,
   `CUS_TOTAL_DUE` bigint(20) NOT NULL COMMENT 'TOTAL AMOUNT NEED TO BE PAID BY CUSTOMER  INSERT  BY MULTIPLYING THE PLAN AMOUNT AND INSERTING HERE',
   `COL_DUE_BALANCE` bigint(20) NOT NULL DEFAULT 0,
   `COL_DUE_LAST_BALANCE` bigint(20) NOT NULL DEFAULT 0 COMMENT 'IT SHOWS THE RECORD OF LAST BALANCE BEFORE NEXT NEW',
@@ -88,9 +89,17 @@ CREATE TABLE `collection_master` (
 -- Dumping data for table `collection_master`
 --
 
-INSERT INTO `collection_master` (`COL_ID`, `COL_FOR_CUS_ID`, `CUS_TOTAL_DUE`, `COL_DUE_BALANCE`, `COL_DUE_LAST_BALANCE`, `CL_LAST_UPDATED_ON`, `CL_CREATED_ON`) VALUES
-(1, 17, 2400, 1650, 1900, '2021-11-01', '2021-11-01'),
-(2, 18, 2400, 2200, 2300, '2021-11-01', '2021-11-01');
+INSERT INTO `collection_master` (`COL_ID`, `COL_FOR_CUS_ID`, `COL_PLAN_ID`, `CUS_TOTAL_DUE`, `COL_DUE_BALANCE`, `COL_DUE_LAST_BALANCE`, `CL_LAST_UPDATED_ON`, `CL_CREATED_ON`) VALUES
+(1, 17, 4, 2400, 1650, 1900, '2021-11-01', '2021-11-01'),
+(2, 18, 4, 2400, 2200, 2300, '2021-11-01', '2021-11-01'),
+(3, 19, 2, 3600, 3600, 0, '2022-06-15', '2022-06-15'),
+(4, 20, 2, 3600, 3600, 0, '2022-06-15', '2022-06-15'),
+(5, 21, 1, 3600, 3600, 0, '2022-06-15', '2022-06-15'),
+(6, 22, 2, 3600, 3600, 0, '2022-06-15', '2022-06-15'),
+(7, 23, 4, 3600, 3600, 0, '2022-06-15', '2022-06-15'),
+(8, 24, 1, 3600, 3600, 0, '2022-06-15', '2022-06-15'),
+(9, 25, 1, 3600, 3600, 0, '2022-06-15', '2022-06-15'),
+(10, 26, 2, 3600, 3600, 0, '2022-06-15', '2022-06-15');
 
 -- --------------------------------------------------------
 
@@ -120,8 +129,16 @@ CREATE TABLE `customer_master` (
 --
 
 INSERT INTO `customer_master` (`CUS_ID`, `CUS_MEMBER_ID`, `CUS_NAME`, `CUS_SUR_NAME`, `CUS_PM_PH_NO`, `CUS_SE_PH_NO`, `CUS_PLACE_ID`, `CUS_REF_BY`, `CUS_PLAN_ID`, `CUS_DL_STATUS`, `CUS_COM_ONE`, `CUS_COM_TWO`, `CUS_CREATED_AT`, `CUS_SCHEME_ID`) VALUES
-(17, 0, 'RAGUL', 'SAI', '7708458701', '5252522525', 2, 1, 1, 1, 1, 0, '2021-11-01', 1),
-(18, 0, 'KOWSI', 'SAI', '7708458701', '5252522525', 2, 1, 1, 1, 1, 0, '2021-11-01', 1);
+(17, 1, 'RAGUL', 'SAI', '7708458701', '5252522525', 1, 2, 1, 1, 1, 0, '2021-11-01', 1),
+(18, 2, 'KOWSI', 'SAI', '7708458701', '5252522525', 2, 2, 1, 1, 1, 0, '2021-11-01', 1),
+(19, 25, 'sdfsdfsdf', 'asdsd', '1010101010', '', 3, 1, 2, 1, 0, 0, '2022-06-15', 2),
+(20, 4, 'sdfsdfsdf', 'asdsd', '1010101010', '', 4, 1, 2, 1, 0, 0, '2022-06-15', 2),
+(21, 5, 'sdfsdfsdf', 'asdsd', '1010101010', '', 4, 3, 2, 1, 0, 0, '2022-06-15', 2),
+(22, 6, 'sdfsdfsdf', 'asdsd', '1010101010', '', 4, 4, 2, 1, 0, 0, '2022-06-15', 2),
+(23, 7, 'sdfsdfsdf', 'asdsd', '1010101010', '', 1, 3, 2, 1, 0, 0, '2022-06-15', 2),
+(24, 8, 'sdfsdfsdf', 'asdsd', '1010101010', '', 1, 3, 2, 1, 0, 0, '2022-06-15', 2),
+(25, 10, 'sdfsdfsdf', 'asdsd', '1010101010', '', 1, 3, 2, 1, 0, 0, '2022-06-15', 2),
+(26, 11, 'test with pplan id', 'asdsd', '1010101010', '', 1, 1, 2, 1, 0, 0, '2022-06-15', 2);
 
 -- --------------------------------------------------------
 
@@ -145,7 +162,10 @@ INSERT INTO `place_master` (`PLACE_ID`, `PLACE_NAME`, `PLACE_DL_STATUS`, `PLACE_
 (2, 'k.k.nagar', 1, '2021-10-09'),
 (3, 'test place ', 1, '2022-06-11'),
 (4, 'test place q', 1, '2022-06-11'),
-(5, 'dfgdf', 1, '2022-06-11');
+(5, 'dfgdf', 1, '2022-06-11'),
+(6, 'பெண்டிரேம்', 1, '2022-06-15'),
+(7, 'அம்மா', 1, '2022-06-15'),
+(8, 'அம்மா ஒன்று', 1, '2022-06-15');
 
 -- --------------------------------------------------------
 
@@ -242,7 +262,8 @@ ALTER TABLE `agent_master`
 -- Indexes for table `collection_master`
 --
 ALTER TABLE `collection_master`
-  ADD PRIMARY KEY (`COL_ID`);
+  ADD PRIMARY KEY (`COL_ID`),
+  ADD KEY `plan_contain` (`COL_PLAN_ID`);
 
 --
 -- Indexes for table `customer_master`
@@ -301,19 +322,19 @@ ALTER TABLE `agent_master`
 -- AUTO_INCREMENT for table `collection_master`
 --
 ALTER TABLE `collection_master`
-  MODIFY `COL_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `COL_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `customer_master`
 --
 ALTER TABLE `customer_master`
-  MODIFY `CUS_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `CUS_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `place_master`
 --
 ALTER TABLE `place_master`
-  MODIFY `PLACE_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `PLACE_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `plan_master`
@@ -336,6 +357,12 @@ ALTER TABLE `transaction_master`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `collection_master`
+--
+ALTER TABLE `collection_master`
+  ADD CONSTRAINT `plan_contain` FOREIGN KEY (`COL_PLAN_ID`) REFERENCES `plan_master` (`PL_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `customer_master`
