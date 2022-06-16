@@ -17,11 +17,13 @@ class AuthController extends Controller
 
         if ($adminLogin->check_user_exits($request->phonenumber)) {
 
-            if ($adminLogin->authenticate($request->phonenumber, $request->password)) {
+            $auth=$adminLogin->authenticate($request->phonenumber, $request->password);
+
+            if ($auth) {
               
                 return $response
                 ->status(200)
-                ->toJSON(["message" => "Authentication Success"]);
+                ->toJSON(["message" => "Authentication Success","data"=>$auth]);
             }
 
             return $response

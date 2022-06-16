@@ -28,7 +28,15 @@ class AdminLogin extends Model
         $db_response = $stmt->fetch();
 
         if ($this->Check_hash($password, $db_response->PASSWORD)) {
-            return true;
+
+            $protected_response = [
+                'ADMIN_ID' => $db_response->ADMIN_ID,
+                'USERNAME' => $db_response->USERNAME,
+                'PHONE_NUMBER' => $db_response->PHONE_NUMBER,
+
+            ];
+
+            return $protected_response;
         } else {
             return false;
         }
