@@ -2,13 +2,13 @@
 
 
 namespace App\Lib;
-use PDO;
+use \PDO;
 use PDOException;
 
 class App extends ServiceProvider
 {
 
-    public static ?PDO $Db;
+    public static  $Db;
 
     public function  __construct($servername, $dbname, $username, $password)
     {   
